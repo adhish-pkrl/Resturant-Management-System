@@ -2,76 +2,64 @@
 
 session_start();
 
-require_once "../config/database.php";
+include '../config/database.php';
 
-$error = "";
+$message = "";
 
-if (isset($_POST['login'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $email = trim($_POST['email']);
-    $password = $_POST['password'];
+    $email = trim($_POST["email"]);
+    $password = $_POST["password"];
 
     if (empty($email) || empty($password)) {
 
-        $error = "Please enter your email and password.";
+        $message = "Please enter email and password.";
 
     } else {
 
-        $stmt = $conn->prepare(
-            "SELECT id, name, email, password, role, status
-             FROM users
-             WHERE email = ?
-             LIMIT 1"
-        );
+        $sql = "SELECT * FROM users WHERE email = ? AND status = 'active' LIMIT 1";
 
+        $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $email);
         $stmt->execute();
 
         $result = $stmt->get_result();
 
-        if ($result->num_rows === 1) {
+        if ($result->num_rows == 1) {
 
             $user = $result->fetch_assoc();
 
-            if ($user['status'] !== 'active') {
+            if (password_verify($password, $user["password"])) {
 
-                $error = "Your account is not active.";
+                $_SESSION["user_id"] = $user["id"];
+                $_SESSION["user_name"] = $user["name"];
+                $_SESSION["user_role"] = $user["role"];
 
-            } elseif (password_verify($password, $user['password'])) {
+                if ($user["role"] == "admin") {
+                    header("Location: ../admin/");
+                    exit();
+                }
 
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['user_name'] = $user['name'];
-                $_SESSION['user_email'] = $user['email'];
-                $_SESSION['user_role'] = $user['role'];
+                if ($user["role"] == "staff") {
+                    header("Location: ../staff/");
+                    exit();
+                }
 
-                if ($user['role'] === 'admin') {
-
-                    header("Location: ../admin/dashboard.php");
-                    exit;
-
-                } elseif ($user['role'] === 'staff') {
-
-                    header("Location: ../staff/dashboard.php");
-                    exit;
-
-                } elseif ($user['role'] === 'customer') {
-
-                    header("Location: ../customer/dashboard.php");
-                    exit;
-
-                } else {
-
-                    $error = "Invalid user role.";
+                if ($user["role"] == "customer") {
+                    header("Location: ../customer/");
+                    exit();
                 }
 
             } else {
 
-                $error = "Invalid email or password.";
+                $message = "Invalid email or password.";
+
             }
 
         } else {
 
-            $error = "Invalid email or password.";
+            $message = "Invalid email or password.";
+
         }
 
         $stmt->close();
@@ -89,65 +77,238 @@ if (isset($_POST['login'])) {
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>RMS - Login</title>
+    <meta
+        name="description"
+        content="Login to the Restaurant Management System"
+    >
 
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <title>Login - RMS Restaurant</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <!-- RMS CSS -->
+    <link
+        rel="stylesheet"
+        href="../assets/css/style.css"
+    >
 
 </head>
 
-<body>
+<body class="auth-page">
 
-    <div class="login-container">
+    <main class="auth-wrapper">
 
-        <h1>Restaurant Management System</h1>
+        <div class="auth-card">
 
-        <h2>Login</h2>
+            <!-- LEFT SIDE -->
 
-        <?php if (!empty($error)): ?>
+            <div class="auth-brand">
 
-            <p>
-                <?php echo htmlspecialchars($error); ?>
-            </p>
-
-        <?php endif; ?>
-
-        <form method="POST" action="">
-
-            <div class="form-group">
-
-                <label for="email">Email</label>
-
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="Enter your email"
-                    required
+                <a
+                    href="../index.php"
+                    class="auth-logo"
                 >
+                    <span>RMS</span> Restaurant
+                </a>
+
+                <div class="auth-brand-content">
+
+                    <span class="auth-badge">
+                        <i class="bi bi-stars"></i>
+                        Welcome Back
+                    </span>
+
+                    <h1>
+                        Good Food.
+                        <br>
+                        <span>Great Moments.</span>
+                    </h1>
+
+                    <p>
+                        Sign in to continue your restaurant experience,
+                        manage your orders, reservations and more.
+                    </p>
+
+                </div>
+
+                <a
+                    href="../index.php"
+                    class="auth-home-link"
+                >
+                    <i class="bi bi-arrow-left"></i>
+                    Back to Home
+                </a>
 
             </div>
 
-            <div class="form-group">
 
-                <label for="password">Password</label>
+            <!-- RIGHT SIDE -->
 
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Enter your password"
-                    required
-                >
+            <div class="auth-form-section">
+
+                <div class="auth-form-container">
+
+                    <div class="mb-4">
+
+                        <span class="text-warning fw-semibold">
+                            ACCOUNT LOGIN
+                        </span>
+
+                        <h2 class="fw-bold mt-2 mb-2">
+                            Welcome back!
+                        </h2>
+
+                        <p class="text-secondary mb-0">
+                            Enter your details to access your account.
+                        </p>
+
+                    </div>
+
+
+                    <!-- Error Message -->
+
+                    <?php if (!empty($message)): ?>
+
+                        <div class="alert alert-danger d-flex align-items-center gap-2">
+                            <i class="bi bi-exclamation-circle-fill"></i>
+
+                            <span>
+                                <?php echo htmlspecialchars($message); ?>
+                            </span>
+                        </div>
+
+                    <?php endif; ?>
+
+
+                    <!-- Login Form -->
+
+                    <form method="POST" action="">
+
+                        <div class="mb-3">
+
+                            <label
+                                for="email"
+                                class="form-label fw-semibold"
+                            >
+                                Email Address
+                            </label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text">
+                                    <i class="bi bi-envelope"></i>
+                                </span>
+
+                                <input
+                                    type="email"
+                                    class="form-control"
+                                    id="email"
+                                    name="email"
+                                    placeholder="Enter your email"
+                                    required
+                                    autocomplete="email"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="mb-2">
+
+                            <label
+                                for="password"
+                                class="form-label fw-semibold"
+                            >
+                                Password
+                            </label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text">
+                                    <i class="bi bi-lock"></i>
+                                </span>
+
+                                <input
+                                    type="password"
+                                    class="form-control"
+                                    id="password"
+                                    name="password"
+                                    placeholder="Enter your password"
+                                    required
+                                    autocomplete="current-password"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="text-end mb-4">
+
+                            <a
+                                href="forgot-password.php"
+                                class="auth-small-link"
+                            >
+                                Forgot Password?
+                            </a>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-warning w-100 py-3 fw-semibold"
+                        >
+                            <i class="bi bi-box-arrow-in-right me-2"></i>
+                            Login
+                        </button>
+
+                    </form>
+
+
+                    <div class="auth-divider">
+                        <span>OR</span>
+                    </div>
+
+
+                    <p class="text-center text-secondary mb-0">
+
+                        Don't have an account?
+
+                        <a
+                            href="register.php"
+                            class="fw-semibold text-warning"
+                        >
+                            Create an account
+                        </a>
+
+                    </p>
+
+                </div>
 
             </div>
 
-            <button type="submit" name="login">
-                Login
-            </button>
+        </div>
 
-        </form>
+    </main>
 
-    </div>
+
+    <!-- Bootstrap JS -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
 
 </body>
 
