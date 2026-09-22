@@ -135,53 +135,47 @@ $tables_result = $conn->query(
 <body>
 
 <div class="dashboard">
+<aside class="sidebar">
 
-    <aside class="sidebar">
+    <h2>RMS</h2>
 
-        <h2>RMS</h2>
+    <ul>
 
-        <ul>
+        <li>
+            <a href="dashboard.php">Dashboard</a>
+        </li>
 
-            <li>
-                <a href="dashboard.php">Dashboard</a>
-            </li>
+        <li>
+            <a href="users.php">Users</a>
+        </li>
 
-            <li>
-                <a href="users.php">Users</a>
-            </li>
+        <li>
+            <a href="menu.php">Menu Items</a>
+        </li>
 
-            <li>
-                <a href="categories.php">Categories</a>
-            </li>
+        <li>
+            <a href="tables.php">Tables</a>
+        </li>
 
-            <li>
-                <a href="menu_items.php">Menu Items</a>
-            </li>
+        <li>
+            <a href="orders.php">Orders</a>
+        </li>
 
-            <li>
-                <a href="tables.php">Tables</a>
-            </li>
+        <li>
+            <a href="payments.php">Payments</a>
+        </li>
 
-            <li>
-                <a href="#">Orders</a>
-            </li>
+        <li>
+            <a href="reports.php">Reports</a>
+        </li>
 
-            <li>
-                <a href="#">Reservations</a>
-            </li>
+        <li>
+            <a href="../auth/logout.php">Logout</a>
+        </li>
 
-            <li>
-                <a href="#">Payments</a>
-            </li>
+    </ul>
 
-            <li>
-                <a href="../auth/logout.php">Logout</a>
-            </li>
-
-        </ul>
-
-    </aside>
-
+</aside>
 
     <main class="main-content">
 

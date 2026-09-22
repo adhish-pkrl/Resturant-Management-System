@@ -36,15 +36,23 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["user_role"] !== "admin") {
 
     <h3>Admin Menu</h3>
 
-    <p>👥 User Management</p>
-    <p>🍔 Menu Management</p>
-    <p>🗂️ Category Management</p>
-    <p>🪑 Table Management</p>
-    <p>📦 Order Management</p>
-    <p>💳 Payments</p>
-    <p>📅 Reservations</p>
-    <p>📊 Reports</p>
+<h2>Admin Menu</h2>
 
+<p><a href="users.php">👥 User Management</a></p>
+
+<p><a href="menu.php">🍔 Menu Management</a></p>
+
+<p><a href="tables.php">🪑 Table Management</a></p>
+
+<p><a href="orders.php">📦 Order Management</a></p>
+
+<p><a href="payments.php">💳 Payments</a></p>
+
+<p><a href="reports.php">📊 Reports</a></p>
+
+<p>
+    <a href="../auth/logout.php">Logout</a>
+</p>
     <br>
 
     <a href="../auth/logout.php">Logout</a>

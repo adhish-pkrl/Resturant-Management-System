@@ -1198,3 +1198,87 @@ textarea:focus {
     }
 
 }
+/* =====================================================
+   WAITER TABLES
+   ===================================================== */
+
+.customer-stat-icon {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    background: #fef3c7;
+    color: #d97706;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+.waiter-table-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    transition: 0.2s ease;
+    height: 100%;
+}
+
+.waiter-table-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.table-available {
+    border-top: 4px solid #16a34a;
+}
+
+.table-occupied {
+    border-top: 4px solid #dc2626;
+}
+
+.waiter-table-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    background: #fef3c7;
+    color: #d97706;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+}
+
+.waiter-table-card h4 {
+    font-size: 19px;
+    font-weight: 750;
+    margin-bottom: 7px;
+}
+
+.waiter-table-card p {
+    color: #6b7280;
+    font-size: 13px;
+    margin-bottom: 14px;
+}
+
+.table-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.table-status i {
+    font-size: 7px;
+}
+
+.table-status-available {
+    color: #16a34a;
+}
+
+.table-status-occupied {
+    color: #dc2626;
+}

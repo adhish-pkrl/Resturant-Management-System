@@ -123,47 +123,41 @@ if (isset($_POST['add_user'])) {
     <aside class="sidebar">
 
         <h2>RMS</h2>
+<ul>
 
-        <ul>
+    <li>
+        <a href="dashboard.php">Dashboard</a>
+    </li>
 
-            <li>
-                <a href="dashboard.php">Dashboard</a>
-            </li>
+    <li>
+        <a href="users.php">Users</a>
+    </li>
 
-            <li>
-                <a href="users.php">Users</a>
-            </li>
+    <li>
+        <a href="menu.php">Menu Items</a>
+    </li>
 
-            <li>
-                <a href="#">Categories</a>
-            </li>
+    <li>
+        <a href="tables.php">Tables</a>
+    </li>
 
-            <li>
-                <a href="#">Menu Items</a>
-            </li>
+    <li>
+        <a href="orders.php">Orders</a>
+    </li>
 
-            <li>
-                <a href="#">Tables</a>
-            </li>
+    <li>
+        <a href="payments.php">Payments</a>
+    </li>
 
-            <li>
-                <a href="#">Orders</a>
-            </li>
+    <li>
+        <a href="reports.php">Reports</a>
+    </li>
 
-            <li>
-                <a href="#">Reservations</a>
-            </li>
+    <li>
+        <a href="../auth/logout.php">Logout</a>
+    </li>
 
-            <li>
-                <a href="#">Payments</a>
-            </li>
-
-            <li>
-                <a href="../auth/logout.php">Logout</a>
-            </li>
-
-        </ul>
-
+</ul>
     </aside>
 
 
@@ -260,13 +254,15 @@ if (isset($_POST['add_user'])) {
 
                     <label for="role">Role</label>
 
-                    <select id="role" name="role">
-
-                        <option value="customer">Customer</option>
-
-                        <option value="staff">Staff</option>
+                    <select id="role" name="role" required>
 
                         <option value="admin">Admin</option>
+
+                        <option value="waiter">Waiter</option>
+
+                        <option value="kitchen">Kitchen</option>
+
+                        <option value="cashier">Cashier</option>
 
                     </select>
 

@@ -56,31 +56,27 @@ $result = $conn->query(
             <li>
                 <a href="users.php">Users</a>
             </li>
-
+            
             <li>
-                <a href="#">Categories</a>
+                <a href="menu.php">Menu Items</a>
             </li>
 
             <li>
-                <a href="#">Menu Items</a>
+                <a href="tables.php">Tables</a>
             </li>
 
             <li>
-                <a href="#">Tables</a>
+                <a href="orders.php">Orders</a>
             </li>
 
             <li>
-                <a href="#">Orders</a>
+                <a href="payments.php">Payments</a>
             </li>
 
             <li>
-                <a href="#">Reservations</a>
+                <a href="reports.php">Reports</a>
             </li>
-
-            <li>
-                <a href="#">Payments</a>
-            </li>
-
+            
             <li>
                 <a href="../auth/logout.php">Logout</a>
             </li>
@@ -183,22 +179,11 @@ $result = $conn->query(
                                 <td>
                                     <?php echo htmlspecialchars($user['created_at']); ?>    
                                 </td>
-                                <!-- <td>
-                                    <a href ="edit_user.php?id=<?php echo $user['id']; ?>">
-                                    Edit
-                                    </a>
-                                </td> -->
-                                <!-- to add delete button -->
-                                 <td>
 
-    <a href="edit_user.php?id=<?php echo $user['id']; ?>">
-        Edit
-    </a>
+                                <td>
 
     <?php if ($user['id'] != $_SESSION['user_id']): ?>
 
-        
-        
         <a
             href="delete_user.php?id=<?php echo $user['id']; ?>"
             onclick="return confirm('Are you sure you want to delete this user?');"
@@ -206,13 +191,13 @@ $result = $conn->query(
             Delete
         </a>
 
+    <?php else: ?>
+
+        Current Admin
+
     <?php endif; ?>
 
 </td>
-
-
-
-
 
 
                             </tr>

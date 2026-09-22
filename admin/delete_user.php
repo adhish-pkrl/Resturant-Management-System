@@ -22,40 +22,31 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 
 $user_id = (int) $_GET['id'];
 
-// Prevent deleting your own account
+// Prevent Admin from deleting their own account
 if ($user_id === (int) $_SESSION['user_id']) {
     header("Location: users.php?error=self_delete");
     exit;
 }
 
-// Check whether user exists
+// Delete user
 $stmt = $conn->prepare(
-    "SELECT id FROM users WHERE id = ? LIMIT 1"
+    "DELETE FROM users WHERE id = ?"
 );
 
 $stmt->bind_param("i", $user_id);
-$stmt->execute();
 
-$result = $stmt->get_result();
-
-if ($result->num_rows === 1) {
+if ($stmt->execute()) {
 
     $stmt->close();
+    $conn->close();
 
-    // Delete user
-    $delete = $conn->prepare(
-        "DELETE FROM users WHERE id = ?"
-    );
-
-    $delete->bind_param("i", $user_id);
-    $delete->execute();
-
-    $delete->close();
+    header("Location: users.php?message=deleted");
+    exit;
 }
 
+$stmt->close();
 $conn->close();
 
-header("Location: users.php");
+header("Location: users.php?error=delete_failed");
 exit;
-
 ?>

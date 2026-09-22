@@ -36,20 +36,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION["user_role"] = $user["role"];
 
                 if ($user["role"] == "admin") {
-                    header("Location: ../admin/");
-                    exit();
-                }
 
-                if ($user["role"] == "staff") {
-                    header("Location: ../staff/");
-                    exit();
-                }
+    header("Location: ../admin/");
+    exit();
 
-                if ($user["role"] == "customer") {
-                    header("Location: ../customer/");
-                    exit();
-                }
+}
 
+if ($user["role"] == "waiter") {
+
+    header("Location: ../waiter/");
+    exit();
+
+}
+
+if ($user["role"] == "kitchen") {
+
+    header("Location: ../Staff/kitchen.php");
+    exit();
+
+}
+
+if ($user["role"] == "cashier") {
+
+    header("Location: ../cashier/");
+    exit();
+
+}
+
+$message = "Your account role is not configured correctly.";
             } else {
 
                 $message = "Invalid email or password.";
@@ -283,16 +297,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
                     <p class="text-center text-secondary mb-0">
-
-                        Don't have an account?
-
                         <a
-                            href="register.php"
+                            href="forgot-password.php"
                             class="fw-semibold text-warning"
-                        >
-                            Create an account
+                            >
+                            Forgot Password?
                         </a>
-
                     </p>
 
                 </div>
